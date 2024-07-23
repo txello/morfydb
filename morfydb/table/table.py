@@ -94,10 +94,12 @@ class Table:
             self.model.drop(self.model.loc[self.model.index == id].index, inplace=True)
         return self.model
     
-    def append(self, *models:pd.DataFrame):
+    def append(self, *models:pd.DataFrame, none:bool=False):
         for model in models:
             if isinstance(model, Table):
                 model = model.model
+            if none:
+                model = model.replace(np.nan, None)
             if INDEX in self.class_columns_typing:
                 self.model = pd.concat([self.model, model.astype(self.model.dtypes)], ignore_index=True)
                 self.model.index += self.class_columns[self.class_columns_typing.index(INDEX)]._typing_data.start
