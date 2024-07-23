@@ -34,8 +34,8 @@ class MorfyDB:
         table = self.tables[index]
         return table.delete(*ID)
     
-    def append_table(self, model:MorfyBase, model_to:MorfyBase|Table):
+    def append_table(self, model:MorfyBase, model_to:MorfyBase|Table, none:bool=False):
         model = model() if callable(model) else model
         index = [func_t.name for func_t in self.tables].index(model._get_name())
         table = self.tables[index]
-        return table.append(model_to() if callable(model_to) else model_to)
+        return table.append(model_to() if callable(model_to) else model_to, none=none)
